@@ -19,3 +19,4 @@ class NotFoundException(BaseDomainException):
 
 class UserNotActiveException(BaseDomainException):
     pass
+

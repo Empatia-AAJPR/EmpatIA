@@ -7,6 +7,7 @@ from pydantic import EmailStr
 
 from apps.Accounts.api.auth import JWTAuth
 from apps.Accounts.api.dependencies import AccountsContainer
+from apps.Accounts.api.permissions import is_authorized
 from apps.Accounts.api.schemas import LoginIn, TokenOut, UserIn, UserOut, UserUpdateIn
 
 router = Router()
@@ -58,9 +59,12 @@ def update_user(request, id: UUID, data: UserUpdateIn):
     return 200, UserOut.from_domain(user)
 
 
-@router.delete('/{id}', response={200: UserOut})
+@router.delete('/{id}', response={200: UserOut}, auth=JWTAuth())
 @transaction.atomic
 def deactive_user(request, id: UUID):
+    
+    is_authorized(request)
+
     use_case = container.deactive_user_use_case()
 
     user = use_case.execute(id)
