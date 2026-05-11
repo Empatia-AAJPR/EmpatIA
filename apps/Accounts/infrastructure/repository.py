@@ -93,7 +93,7 @@ class TokenRepository(ITokenRepository):
         return TokenEntity(
             id=model.id,
             hash_token=model.hash_token,
-            user_id=model.user_id,
+            user_id=model.user.id if model.user else None,
             created_at=model.created_at,
             revoked=model.revoked,
         )
