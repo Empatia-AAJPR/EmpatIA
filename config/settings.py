@@ -17,17 +17,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET-KEY')
+SECRET_KEY = os.getenv('SECRET-KEY', 'secret-key-generic')
 
-JWT_SECRET_KEY = os.getenv('SECRET_KEY', SECRET_KEY)
+JWT_SECRET_KEY = os.getenv('SECRET_KEY', 'secret-key-generic')
 
-JWT_ALGORITHIM = os.getenv('ALGORITHM')
+JWT_ALGORITHIM = os.getenv('ALGORITHM', '')
 
-JWT_EXP_MINUTES = os.getenv('JWT_EXP_MINUTES')
+JWT_EXP_MINUTES = os.getenv('JWT_EXP_MINUTES', 30)
 
-JWT_EXP_DAYS = os.getenv('JWT_EXP_DAYS')
+JWT_EXP_DAYS = os.getenv('JWT_EXP_DAYS', 7)
 
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DEBUG', True)
 
 ALLOWED_HOSTS = []
 
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.Accounts',
     'apps.Users',
-    'apps.Schools'
+    'apps.Schools',
+    'apps.Classroom'
 ]
 
 MIDDLEWARE = [
