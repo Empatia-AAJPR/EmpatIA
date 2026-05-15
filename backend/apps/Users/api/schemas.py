@@ -78,7 +78,6 @@ class CoordinatorIn(Schema):
     email: EmailStr
     password: str
     date_birth: date
-    photo: UploadFileVO
     nucleos_group: UUID
 
     def to_dto(self) -> CoordinatorInDTO:
@@ -87,7 +86,6 @@ class CoordinatorIn(Schema):
             email=self.email,
             password=self.password,
             date_birth=self.date_birth,
-            photo=self.photo,
             nucleos_group=self.nucleos_group,
         )
 
@@ -98,6 +96,7 @@ class CoordinatorOut(Schema):
     email: str
     password: str
     rule: UserRules
+    active: bool
     user: UUID
     nucleos_group: UUID
 
@@ -109,6 +108,7 @@ class CoordinatorOut(Schema):
             name=dto.name,
             email=dto.email,
             password=dto.password,
+            active=dto.active,
             rule=dto.rule,
             nucleos_group=dto.nucleos_group,
         )
@@ -128,7 +128,6 @@ class DirectorIn(Schema):
     email: EmailStr
     password: str
     date_birth: date
-    photo: UploadFileVO
 
     def to_dto(self) -> DirectorInDTO:
         return DirectorInDTO(
@@ -136,7 +135,6 @@ class DirectorIn(Schema):
             email=self.email,
             password=self.password,
             date_birth=self.date_birth,
-            photo=self.photo,
         )
 
 
@@ -147,7 +145,7 @@ class DirectorOut(Schema):
     email: EmailStr
     password: str
     date_birth: date
-    photo: UploadFileVO
+    active: bool
 
     @staticmethod
     def from_domain(dto: DirectorOutDTO):
@@ -158,5 +156,5 @@ class DirectorOut(Schema):
             email=dto.email,
             password=dto.password,
             date_birth=dto.date_birth,
-            photo=dto.photo,
+            active=dto.active
         )

@@ -53,16 +53,16 @@ class CoordinatorInDTO(BaseModel):
     email: EmailStr
     password: str
     date_birth: date
-    photo: UploadFileVO
     nucleos_group: UUID
 
 
 class CoordinatorOutDTO(BaseModel):
     id: UUID
     name: str
-    email: str
+    email: EmailStr
     password: str
     rule: UserRules
+    active: bool
     user: UUID
     nucleos_group: UUID
 
@@ -70,12 +70,13 @@ class CoordinatorOutDTO(BaseModel):
     def from_domain(cls, model):
         return cls(
             id=model.id,
-            user=model.user,
+            user=model.user.id,
             name=model.user.name,
             email=model.user.email,
             password=model.user.password,
             rule=model.user.rule,
-            nucleos_group=model.nucleos_group,
+            nucleos_group=model.nucleos_group.id,
+            active=model.user.active
         )
 
 
@@ -88,7 +89,6 @@ class DirectorInDTO(BaseModel):
     email: EmailStr
     password: str
     date_birth: date
-    photo: UploadFileVO
 
 
 class DirectorOutDTO(BaseModel):
@@ -98,7 +98,7 @@ class DirectorOutDTO(BaseModel):
     email: EmailStr
     password: str
     date_birth: date
-    photo: UploadFileVO
+    active: bool
 
     @classmethod
     def from_domain(cls, model):
@@ -109,5 +109,5 @@ class DirectorOutDTO(BaseModel):
             email=model.user.email,
             password=model.user.password,
             date_birth=model.user.date_birth,
-            photo=model.user.photo.url,
+            active=model.user.active
         )

@@ -172,7 +172,7 @@ class RegisterCoordinatorUseCase:
         user_repo: IUserRepository,
         coordinator_repo: ICoordinatorRepository,
         hash_service: IHashService,
-        query_service: ICoordinatorRepository,
+        query_service: ICoordinatorQueryService,
     ) -> None:
         self.user_repo = user_repo
         self.coordinator_repo = coordinator_repo
@@ -187,7 +187,7 @@ class RegisterCoordinatorUseCase:
 
         user = UserEntity(
             name=dto.name,
-            email=dto.name,
+            email=dto.email,
             password=password_hash,
             rule=UserRules.COORDINATOR,
         )
@@ -198,7 +198,7 @@ class RegisterCoordinatorUseCase:
         )
         self.coordinator_repo.save(coordinator)
 
-        query = self.query_service.find_by_id(coordinator.id)
+        query = self.query_service.get_by_id(coordinator.id)
         if not query:
             raise BaseDomainException('student not found')
 

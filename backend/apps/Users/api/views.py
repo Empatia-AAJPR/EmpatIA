@@ -5,7 +5,7 @@ from ninja import File, Form, Router, UploadedFile
 from django.db import transaction
 
 from apps.Users.api.dependencies import UsersContainer
-from apps.Users.api.schemas import StudentIn, StudentOut, UpdateStudentIn
+from apps.Users.api.schemas import CoordinatorIn, CoordinatorOut, StudentIn, StudentOut, UpdateStudentIn
 from apps.Users.application.dto import StudentInDTO
 from apps.Users.domain.value_objects import UploadFileVO
 
@@ -13,6 +13,8 @@ from apps.Users.domain.value_objects import UploadFileVO
 router_student = Router()
 
 router_coordinator = Router()
+
+router_director = Router()
 
 container = UsersContainer()
 
@@ -69,3 +71,31 @@ def deactive_student(request, id: UUID):
     student = use_case.execute(id)
 
     return 200, student
+
+@router_coordinator.post('/', response={201: CoordinatorOut})
+@transaction.atomic
+def register_coordinator(request, data: CoordinatorIn):
+    dto = data.to_dto()
+
+    use_case = container.register_coordinator_use_case()
+
+    coordinator = use_case.execute(dto)
+
+    return 201, CoordinatorOut.from_domain(coordinator)
+
+@router_coordinator.get('/{id}', response={200: CoordinatorOut})
+def response_coordinator(request, id: UUID):
+    use_case = container.response_coordinator_use_case()
+
+    coordinator = use_case.execute(id)
+
+    return 200, CoordinatorOut.from_domain(coordinator)
+
+@router_coordinator.delete('/{id}', response={200: CoordinatorOut})
+@transaction.atomic
+def deactive_coordinator(request, id: UUID):
+    use_case = container.deactive_coordinator_use_case()
+
+    coordinator = use_case.execute(id)
+
+    return 200, CoordinatorOut.from_domain(coordinator)
