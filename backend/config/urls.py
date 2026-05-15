@@ -4,6 +4,8 @@ from ninja import NinjaAPI
 from apps.Accounts.api.views import router as accounts_router
 from apps.Accounts.api.views import auth_router
 
+from apps.Users.api.views import router_student
+
 api = NinjaAPI(title='EmpatIA', docs_url='/docs/')
 
 
@@ -14,6 +16,7 @@ def check_health(request):
 
 api.add_router('/accounts', accounts_router, tags=['Accounts'])
 api.add_router('/auth', auth_router, tags=['Auth'])
+api.add_router('/student', router_student, tags=['Students'])
 
 
 urlpatterns = [path('admin/', admin.site.urls), path('api/v1/', api.urls)]

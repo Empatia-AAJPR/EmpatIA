@@ -9,13 +9,12 @@ from apps.Users.domain.value_objects import UploadFileVO
 
 
 class StudentInDTO(BaseModel):
-    user: UUID
     name: str
     email: EmailStr
     password: str
-    classroom: UUID
     date_birth: date
-    photo: UploadFileVO
+    photo: Optional[UploadFileVO] = None
+    classroom: UUID
 
 
 class StudentOutDTO(BaseModel):
@@ -27,7 +26,7 @@ class StudentOutDTO(BaseModel):
     user: UUID
     classroom: UUID
     date_birth: date
-    photo: UploadFileVO
+    photo: str
 
     @classmethod
     def from_domain(cls, model):
@@ -38,42 +37,77 @@ class StudentOutDTO(BaseModel):
             active=model.user.active,
             rule=model.user.rule,
             user=model.user.id,
-            classroom=model.classroom,
+            classroom=model.classroom.id,
             date_birth=model.date_birth,
             photo=model.photo.url,
         )
 
 
 class StudentUpdateDTO(BaseModel):
-    classroom: Optional[UUID] = None
     date_birth: Optional[date] = None
+    classroom: Optional[UUID] = None
 
 
 class CoordinatorInDTO(BaseModel):
-    user: UUID
+    name: str
+    email: EmailStr
+    password: str
+    date_birth: date
+    photo: UploadFileVO
     nucleos_group: UUID
 
 
 class CoordinatorOutDTO(BaseModel):
     id: UUID
+    name: str
+    email: str
+    password: str
+    rule: UserRules
     user: UUID
     nucleos_group: UUID
 
     @classmethod
     def from_domain(cls, model):
         return cls(
-            id=model.id, user=model.user, nucleos_group=model.nucleos_group
+            id=model.id,
+            user=model.user,
+            name=model.user.name,
+            email=model.user.email,
+            password=model.user.password,
+            rule=model.user.rule,
+            nucleos_group=model.nucleos_group,
         )
 
 
+class CoordinatorUpdateDTO(BaseModel):
+    nucleos_group: Optional[UUID] = None
+
+
 class DirectorInDTO(BaseModel):
-    user: UUID
+    name: str
+    email: EmailStr
+    password: str
+    date_birth: date
+    photo: UploadFileVO
 
 
 class DirectorOutDTO(BaseModel):
     id: UUID
     user: UUID
+    name: str
+    email: EmailStr
+    password: str
+    date_birth: date
+    photo: UploadFileVO
 
     @classmethod
     def from_domain(cls, model):
-        return cls(id=model.id, user=model.user)
+        return cls(
+            id=model.id,
+            user=model.user.id,
+            name=model.user.name,
+            email=model.user.email,
+            password=model.user.password,
+            date_birth=model.user.date_birth,
+            photo=model.user.photo.url,
+        )
