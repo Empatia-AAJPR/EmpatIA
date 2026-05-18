@@ -1,12 +1,11 @@
 from uuid import UUID
 
-from apps.Schools.domain.entities import NucleosGroupEntity, SchoolEntity
+from apps.Schools.domain.entities import SchoolEntity
 from apps.Schools.domain.repositories import (
-    INucleosGroupRepository,
     ISchoolRepository,
 )
 from apps.Schools.domain.value_objects import CNPJ
-from apps.Schools.infrastructure.models import NucleosGroup, School
+from apps.Schools.infrastructure.models import School
 
 
 class SchoolRepository(ISchoolRepository):
@@ -49,37 +48,6 @@ class SchoolRepository(ISchoolRepository):
             cnpj=CNPJ(value=model.cnpj),
             logo=model.logo.name if model.logo else None,
             gre=model.gre,
-            created_at=model.created_at,
-            deleted_at=model.deleted_at,
-        )
-
-
-class NucleosGroupRepository(INucleosGroupRepository):
-    def save(self, n_group: NucleosGroupEntity) -> NucleosGroupEntity:
-        NucleosGroup.objects.update_or_create(
-            id=n_group.id,
-            defaults={
-                'name': n_group.name,
-                'school_id': n_group.school,
-                'created_at': n_group.created_at,
-                'deleted_at': n_group.deleted_at,
-            },
-        )
-
-        return n_group
-
-    def find_by_id(self, id: UUID) -> NucleosGroupEntity | None:
-        try:
-            return self._to_model(NucleosGroup.objects.get(id=id))
-
-        except NucleosGroup.DoesNotExist:
-            return None
-
-    def _to_model(self, model: NucleosGroup) -> NucleosGroupEntity:
-        return NucleosGroupEntity(
-            id=model.id,
-            name=model.name,
-            school=model.school.id,
             created_at=model.created_at,
             deleted_at=model.deleted_at,
         )

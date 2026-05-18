@@ -78,7 +78,7 @@ class CoordinatorIn(Schema):
     email: EmailStr
     password: str
     date_birth: date
-    nucleos_group: UUID
+    school: UUID
 
     def to_dto(self) -> CoordinatorInDTO:
         return CoordinatorInDTO(
@@ -86,7 +86,7 @@ class CoordinatorIn(Schema):
             email=self.email,
             password=self.password,
             date_birth=self.date_birth,
-            nucleos_group=self.nucleos_group,
+            school=self.school,
         )
 
 
@@ -98,7 +98,7 @@ class CoordinatorOut(Schema):
     rule: UserRules
     active: bool
     user: UUID
-    nucleos_group: UUID
+    school: UUID
 
     @staticmethod
     def from_domain(dto: CoordinatorOutDTO):
@@ -110,16 +110,16 @@ class CoordinatorOut(Schema):
             password=dto.password,
             active=dto.active,
             rule=dto.rule,
-            nucleos_group=dto.nucleos_group,
+            school=dto.school,
         )
 
 
 class UpdateCoordinatorIn(Schema):
-    nucleos_group: Optional[UUID] = None
+    school: Optional[UUID] = None
 
     def to_dto(self) -> CoordinatorUpdateDTO:
         return CoordinatorUpdateDTO(
-            nucleos_group=self.nucleos_group,
+            school=self.school,
         )
 
 

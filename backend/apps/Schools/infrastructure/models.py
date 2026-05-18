@@ -15,18 +15,3 @@ class School(models.Model):
 
     class Meta:
         db_table = 'schools'
-
-
-class NucleosGroup(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    name = models.CharField(max_length=100)
-    school = models.ForeignKey(
-        'Schools.School',
-        on_delete=models.CASCADE,
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    deleted_at = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        db_table = 'nucleos_group'

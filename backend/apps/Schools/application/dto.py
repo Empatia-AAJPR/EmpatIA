@@ -39,23 +39,3 @@ class UpdateSchoolInDTO(BaseModel):
     name: Optional[str] = None
     cnpj: Optional[CNPJ] = None
     gre: Optional[str] = None
-
-
-class NucleosGroupInDTO(BaseModel):
-    name: str
-    school: UUID
-
-
-class NucleosGroupOutDTO(BaseModel):
-    id: UUID
-    name: str
-    school: UUID
-    deleted_at: datetime | None
-
-    @classmethod
-    def from_domain(cls, model):
-        return cls(id=model.id, name=model.name, school=model.school, deleted_at=model.deleted_at)
-
-
-class UpdateNucleosGroupInDTO(BaseModel):
-    name: Optional[str] = None

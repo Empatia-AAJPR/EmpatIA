@@ -20,9 +20,7 @@ class Student(models.Model):
 class Coordinator(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     user = models.OneToOneField('Accounts.User', on_delete=models.CASCADE)
-    nucleos_group = models.ForeignKey(
-        'Schools.NucleosGroup', on_delete=models.CASCADE
-    )
+    school = models.ForeignKey('Schools.School', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'coordinator'

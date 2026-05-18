@@ -36,7 +36,7 @@ class StudentEntity:
 class CoordinatorEntity:
     id: UUID = field(default_factory=uuid4)
     user: UUID | None = field(default=None)
-    nucleos_group: UUID | None = field(default=None)
+    school: UUID | None = field(default=None)
 
 
 @dataclass

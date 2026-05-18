@@ -52,7 +52,7 @@ class CoordinatorRepository(ICoordinatorRepository):
             id=coordinator.id,
             defaults={
                 'user_id': coordinator.user,
-                'nucleos_group_id': coordinator.nucleos_group,
+                'school_id': coordinator.school,
             },
         )
 
@@ -67,7 +67,7 @@ class CoordinatorRepository(ICoordinatorRepository):
 
     def _to_entity(self, model: Coordinator) -> CoordinatorEntity:
         return CoordinatorEntity(
-            id=model.id, user=model.user.id, nucleos_group=model.nucleos_group
+            id=model.id, user=model.user.id, school=model.school
         )
 
 

@@ -45,24 +45,3 @@ class SchoolEntity:
             raise BaseDomainException('new logo is required')
 
         self.logo = new_logo
-
-
-@dataclass
-class NucleosGroupEntity:
-    id: UUID = field(default_factory=uuid4)
-    name: str = field(default='')
-    school: UUID | None = field(default=None)
-    created_at: datetime = field(default_factory=datetime.now)
-    deleted_at: datetime | None = field(default=None)
-
-    def deactive(self):
-        if self.deleted_at:
-            raise BaseDomainException('school already deleted')
-
-        self.deleted_at = datetime.now()
-
-    def change_name(self, new_name: str):
-        if not new_name:
-            raise BaseDomainException('new name is required')
-
-        self.name = new_name

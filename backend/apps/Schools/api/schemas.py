@@ -6,18 +6,14 @@ from ninja import Schema
 from pydantic import field_validator
 
 from apps.Schools.application.dto import (
-    NucleosGroupInDTO,
-    NucleosGroupOutDTO,
     SchoolInDTO,
     SchoolOutDTO,
-    UpdateNucleosGroupInDTO,
     UpdateSchoolInDTO,
 )
 from apps.Schools.domain.value_objects import CNPJ
 from apps.Users.domain.value_objects import UploadFileVO
 
 from apps.Schools.domain.value_objects import CNPJValidate
-from config import settings
 
 
 class SchoolIn(Schema):
@@ -79,29 +75,3 @@ class UpdateSchoolIn(Schema):
             cnpj=CNPJ(self.cnpj) if self.cnpj else None,
             gre=self.gre,
         )
-
-
-class NucleosGroupIn(Schema):
-    name: str
-    school: UUID
-
-    def to_dto(self) -> NucleosGroupInDTO:
-        return NucleosGroupInDTO(name=self.name, school=self.school)
-
-
-class NucleosGroupOut(Schema):
-    id: UUID
-    name: str
-    school: UUID
-    deleted_at: datetime | None
-
-    @staticmethod
-    def from_domain(dto: NucleosGroupOutDTO):
-        return NucleosGroupOut(id=dto.id, name=dto.name, school=dto.school, deleted_at=dto.deleted_at)
-
-
-class UpdateNucleosGroupIn(Schema):
-    name: str
-
-    def to_dto(self) -> UpdateNucleosGroupInDTO:
-        return UpdateNucleosGroupInDTO(name=self.name)

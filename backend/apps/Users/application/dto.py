@@ -53,7 +53,7 @@ class CoordinatorInDTO(BaseModel):
     email: EmailStr
     password: str
     date_birth: date
-    nucleos_group: UUID
+    school: UUID
 
 
 class CoordinatorOutDTO(BaseModel):
@@ -64,7 +64,7 @@ class CoordinatorOutDTO(BaseModel):
     rule: UserRules
     active: bool
     user: UUID
-    nucleos_group: UUID
+    school: UUID
 
     @classmethod
     def from_domain(cls, model):
@@ -75,13 +75,13 @@ class CoordinatorOutDTO(BaseModel):
             email=model.user.email,
             password=model.user.password,
             rule=model.user.rule,
-            nucleos_group=model.nucleos_group.id,
+            school=model.school.id,
             active=model.user.active,
         )
 
 
 class CoordinatorUpdateDTO(BaseModel):
-    nucleos_group: Optional[UUID] = None
+    school: Optional[UUID] = None
 
 
 class DirectorInDTO(BaseModel):

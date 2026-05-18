@@ -185,7 +185,7 @@ Apps presentes: `Accounts`, `Schools`, `Users`, `Classroom`
 |---|---|---|
 | `id` | UUID | PK |
 | `user` | OneToOne → Accounts.User | — |
-| `nucleos_group` | FK → NucleosGroup | — |
+| `school` | FK → NucleosGroup | — |
 
 ### `Users.Director`
 
@@ -330,7 +330,7 @@ Os endpoints ficam disponíveis nos prefixos:
 |---|---|
 | `/api/accounts` | Accounts |
 | `/api/schools` | Schools |
-| `/api/nucleos_group` | Schools |
+| `/api/school` | Schools |
 | `/api/student` | Users |
 | `/api/coordinator` | Users |
 | `/api/director` | Users |

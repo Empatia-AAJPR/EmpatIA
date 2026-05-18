@@ -25,6 +25,8 @@ from apps.Users.infrastructure.services import (
     DirectorQueryService,
     StudentQueryService,
 )
+from apps.Classroom.infrastructure.repository import ClassroomRepository
+from apps.Schools.infrastructure.repository import SchoolRepository
 
 
 class UsersContainer(containers.DeclarativeContainer):
@@ -46,6 +48,10 @@ class UsersContainer(containers.DeclarativeContainer):
 
     file_adapter = providers.Factory(ImageFileAdapter)
 
+    class_repo = providers.Factory(ClassroomRepository)
+
+    school_repo = providers.Factory(SchoolRepository)
+
     register_student_use_case = providers.Factory(
         RegisterStudentUseCase,
         user_repo=user_repo,
@@ -53,6 +59,7 @@ class UsersContainer(containers.DeclarativeContainer):
         student_repo=student_repo,
         query_service=query_student,
         file_adapter=file_adapter,
+        class_repo=class_repo
     )
 
     response_student_use_case = providers.Factory(
@@ -79,6 +86,7 @@ class UsersContainer(containers.DeclarativeContainer):
         coordinator_repo=coordinator_repo,
         hash_service=hash_service,
         query_service=query_coordinator,
+        school_repo = school_repo
     )
 
     response_coordinator_use_case = providers.Factory(
@@ -98,6 +106,7 @@ class UsersContainer(containers.DeclarativeContainer):
         director_repo=director_repo,
         hash_service=hash_service,
         query_service=query_director,
+        school_repo = school_repo
     )
 
     response_director_use_case = providers.Factory(

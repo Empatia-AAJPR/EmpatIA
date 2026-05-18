@@ -1,21 +1,16 @@
 from uuid import UUID
 
 from apps.Schools.application.dto import (
-    NucleosGroupInDTO,
-    NucleosGroupOutDTO,
     SchoolInDTO,
     SchoolOutDTO,
-    UpdateNucleosGroupInDTO,
     UpdateSchoolInDTO,
 )
-from apps.Schools.domain.entities import NucleosGroupEntity, SchoolEntity
+from apps.Schools.domain.entities import SchoolEntity
 from apps.Schools.domain.exceptions import (
     ConflictFieldsException,
-    NucleosGroupNotFoundException,
     SchoolNotFoundException,
 )
 from apps.Schools.domain.repositories import (
-    INucleosGroupRepository,
     ISchoolRepository,
 )
 from apps.Schools.domain.value_objects import CNPJ
@@ -113,76 +108,3 @@ class DeactiveSchoolUseCase:
         self.school_repo.save(school)
 
         return SchoolOutDTO.from_domain(school)
-
-
-class RegisterNucleosGroupUseCase:
-    def __init__(
-        self, ng_repo: INucleosGroupRepository, school_repo: ISchoolRepository
-    ) -> None:
-        self.ng_repo = ng_repo
-        self.school_repo = school_repo
-
-    def execute(self, dto: NucleosGroupInDTO):
-        school = self.school_repo.find_by_id(dto.school)
-        if not school:
-            raise SchoolNotFoundException('school not found')
-
-        nucleos_group = NucleosGroupEntity(
-            name=dto.name,
-            school=school.id,
-        )
-
-        self.ng_repo.save(nucleos_group)
-
-        return NucleosGroupOutDTO.from_domain(nucleos_group)
-
-
-class ResponseNucleosGroupUseCase:
-    def __init__(self, ng_repo: INucleosGroupRepository) -> None:
-        self.ng_repo = ng_repo
-
-    def execute(self, id: UUID):
-        nucleos_group = self.ng_repo.find_by_id(id)
-        if not nucleos_group:
-            raise NucleosGroupNotFoundException(
-                'nucleos group cordination not found'
-            )
-
-        return NucleosGroupOutDTO.from_domain(nucleos_group)
-
-
-class UpdateNucleosGroupUseCase:
-    def __init__(self, ng_repo: INucleosGroupRepository) -> None:
-        self.ng_repo = ng_repo
-
-    def execute(self, id: UUID, dto: UpdateNucleosGroupInDTO):
-        nucleos_group = self.ng_repo.find_by_id(id)
-        if not nucleos_group:
-            raise NucleosGroupNotFoundException(
-                'nucleos group coordination not found'
-            )
-
-        if dto.name:
-            nucleos_group.change_name(dto.name)
-
-        self.ng_repo.save(nucleos_group)
-
-        return NucleosGroupOutDTO.from_domain(nucleos_group)
-
-
-class DeactiveNucleosGroupUseCase:
-    def __init__(self, ng_repo: INucleosGroupRepository) -> None:
-        self.ng_repo = ng_repo
-
-    def execute(self, id: UUID):
-        nucleos_group = self.ng_repo.find_by_id(id)
-        if not nucleos_group:
-            raise NucleosGroupNotFoundException(
-                'nucleos group coordination not found'
-            )
-
-        nucleos_group.deactive()
-
-        self.ng_repo.save(nucleos_group)
-
-        return NucleosGroupOutDTO.from_domain(nucleos_group)
