@@ -1,0 +1,23 @@
+from abc import ABC, abstractmethod
+from uuid import UUID
+
+from apps.Schools.domain.entities import SchoolEntity
+from apps.Schools.domain.value_objects import CNPJ
+
+
+class ISchoolRepository(ABC):
+    @abstractmethod
+    def save(self, school: SchoolEntity) -> SchoolEntity | None:
+        ...
+
+    @abstractmethod
+    def find_by_id(self, id: UUID) -> SchoolEntity | None:
+        ...
+
+    @abstractmethod
+    def find_by_cnpj(self, cnpj: CNPJ) -> SchoolEntity | None:
+        ...
+
+    @abstractmethod
+    def existis_cnpj(self, cnpj: CNPJ) -> bool:
+        ...

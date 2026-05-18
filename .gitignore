@@ -106,3 +106,19 @@ src/.DS_Store
 src/assets/images/.DS_Store
 src/assets/images/landing/.DS_Store
 src/assets/.DS_Store
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+
+db.sqlite3
+
+logos/
+photo/
