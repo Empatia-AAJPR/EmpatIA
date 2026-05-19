@@ -1,10 +1,10 @@
 import os
 
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 MEDIA_URL = '/media/'
 
@@ -29,7 +29,12 @@ JWT_EXP_DAYS = os.getenv('JWT_EXP_DAYS', 7)
 
 DEBUG = os.getenv('DEBUG', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'empatia-o61a.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    os.getenv('RENDER_EXTERNAL_HOSTNAME', '')
+]
 
 AUTH_USER_MODEL = 'Accounts.User'
 
@@ -85,8 +90,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'postgres'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
